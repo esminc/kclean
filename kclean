@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for path in /usr/src/linux-*; do
+  version=${path#*/linux-}
+
+  if qfile $path > /dev/null; then
+    echo "$version: skip"
+  else
+    echo "$version: removing"
+    cmd="rm -rf $path /lib/modules/$version /boot/*-$version /boot/*-$version.old"
+    echo "$cmd"
+    $cmd
+  fi
+done
